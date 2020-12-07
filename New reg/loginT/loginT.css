@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+#logbox {
+    margin-top: 150px;
+    max-width: 600px;
+}
+#logBtn{
+    text-transform: uppercase;
+}
+a {
+    color: #3684d8e5;
+    text-decoration: none;
+    background-color: transparent;
+}
+.error_message{
+    color: red;
+
+}

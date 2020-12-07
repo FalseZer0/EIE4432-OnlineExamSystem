@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+#regbox {
+    margin-top:50px;
+    max-width: 600px;
+}
+#regBtn{
+    text-transform: uppercase;
+}
+a {
+    color: #3684d8e5;
+    text-decoration: none;
+    background-color: transparent;
+}
+.error_message{
+    color: red;
+
+}
+.control.Goback{
+    float:right;
+}
