@@ -22,6 +22,8 @@
                         <?php
                             if(isset($_GET['error']))
                             {
+                                if($_GET['error']=="usernot")
+                                    echo '<p class="error_message">No user</p>';
                                 if($_GET['error']=="wrongpwd")
                                     echo '<p class="error_message">Wrong Login or Password</p>';
                             }

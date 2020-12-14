@@ -8,8 +8,13 @@ if(isset($_POST['LoginBtn']))
     
     $uid = $_POST['userid'];
     $pass = $_POST['password'];
-    $sql = "SELECT * FROM teacher WHERE tID='$uid' OR pwd='$pass'";
+    $sql = "SELECT * FROM user WHERE tID='$uid'";
     $result = mysqli_query($connect,$sql);
+    if(mysqli_num_rows($result)==0)
+    {
+        header("Location: ../loginT/loginT.php?error=usernot");
+        exit();
+    }
     if($row = mysqli_fetch_assoc($result))
     {
         if($pass==$row['pwd'])
@@ -32,7 +37,7 @@ if(isset($_POST['LoginBtn']))
                 }  
             }
             $_SESSION['userID'] = $row['tID'];
-            header("Location: ../dashboard.php");
+            header("Location: ../Teacher/dashboard.php");
             exit();
         }
         else if($pass!=$row['pwd']){

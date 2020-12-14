@@ -12,25 +12,36 @@
         $passwordRepeat = $_POST['conf-password'];
         $email = $_POST['email'];
         $course = $_POST['courseid'];
-        $imagepath = $_POST['images'];
+        //$imagepath = $_POST['image'];
         $magic = $_POST['magic'];
-        $userQuery = "SELECT tID FROM teacher WHERE tID='$userid';";
-        $userQuery.= "INSERT INTO teacher (tID,fName,lName,email,courseID,imagePath,pwd,magicN) VALUES ('$userid','$firstname','$lastname','$email','$course','$imagepath','$password','$magic')";
-        
-        $result = mysqli_multi_query($connect,$userQuery);
+        //processing images uploaded
+        $target = "../images/".basename($_FILES['image']['name']);
+        $image = $_FILES['image']['name'];        
+        //moving uploaded file to server folder
+        if(!move_uploaded_file($_FILES['image']['tmp_name'],$target))
+        {
+            header("Location: ../registerT/registerT.php?error=imgerror");
+            exit();
+        }      
+        $userQuery = "SELECT tID FROM user WHERE tID='$userid';";        
+        $result = mysqli_query($connect,$userQuery);
         if (!$result) {
             die("Could not successfully run query." . mysqli_error($connect) );
         }
         else{
-            $temp = mysqli_store_result($connect);
-            if(mysqli_num_rows($temp)>0)
+            if(mysqli_num_rows($result)>0)
             {
                 header("Location: ../registerT/registerT.php?error=usertaken");
                 exit();
             }
             else{
-                mysqli_next_result($connect);
-                $temp = mysqli_store_result($connect);
+                $sql = "INSERT INTO user (tID,fName,lName,job,email,courseID,imagePath,pwd,magicN,gender,bday) VALUES ('$userid','$firstname','$lastname','teacher','$email','$course','$image','$password','$magic',null,null)";
+                $result = mysqli_query($connect,$sql);
+                if(!$result)
+                {
+                    die("Could not successfully run query." . mysqli_error($connect) );
+                }
+
                 header("Location: ../loginT/loginT.php");
                 exit();
 

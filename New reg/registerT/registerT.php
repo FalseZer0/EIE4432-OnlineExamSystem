@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-8" id="regbox">
-                    <form id="signup-form" class="form" action="signupT.php" method="post">
+                    <form enctype="multipart/form-data" id="signup-form" class="form" action="signupT.php" method="post">
                         <h2 class="text-center">Register</h2>
                         
                         <?php
@@ -51,7 +51,7 @@
                         </div>
                         <div class="form-group">
                             <label for="fileup">Upload profile picture</label>
-                            <input type="file" name="images" class="form-control-file" id="fileup">
+                            <input type="file" name="image" class="form-control-file" id="fileup">
                         </div>
                         <div class="form-group" id="courseidform">
                             <label for="courseid">Course ID</label><br>
