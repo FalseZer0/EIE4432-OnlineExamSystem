@@ -16,9 +16,9 @@ if(isset($_POST['ResetBtn']))
     }
     if(mysqli_num_rows($result)>0)
     {
-        if(strcmp($row['job'], "teacher")!=0)
+        if(strcmp($row['job'], "student")!=0)
         {
-            header("Location: ../loginT/loginT.php?error=wronguser");
+            header("Location: ../loginS/loginS.php?error=wronguser");
             exit();
         } 
         $row = mysqli_fetch_assoc($result);
@@ -26,19 +26,19 @@ if(isset($_POST['ResetBtn']))
         {
             $sql2 = "UPDATE user SET pwd = '$pass' WHERE tID = '$uid'";
             mysqli_query($connect,$sql2);
-            header("Location: ../loginT/loginT.php");
+            header("Location: ../loginS/loginS.php");
         }
         else{
-            header("Location: ../loginT/resetPT.php?error=nomagic");
+            header("Location: ../loginS/resetPS.php?error=nomagic");
             exit();
         }
     }
     else{
-        header("Location: ../loginT/resetPT.php?error=nouser");
+        header("Location: ../loginS/resetPS.php?error=nouser");
         exit();
     }
 }
 else{
-    header("Location: ../loginT/loginT.php");
+    header("Location: ../loginS/loginS.php");
     exit();
 }

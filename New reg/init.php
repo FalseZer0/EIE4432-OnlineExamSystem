@@ -13,9 +13,9 @@
             <p>Please press the button accordingly</p>
             <div class="row">
             <div class="col-lg-6 col-sm-6 text-center">
-            <form action="">
-                <input type="submit" value="Student"class="btn btn-primary" />
-            </form>
+                <form action="loginS/loginS.php">
+                    <input type="submit" value="Student"class="btn btn-primary" />
+                </form>
             </div>
             <div class="col-lg-6 col-sm-6 text-center">
                 <form action="loginT/loginT.php">

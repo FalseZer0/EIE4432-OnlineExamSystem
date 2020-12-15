@@ -11,14 +11,14 @@ if(isset($_POST['LoginBtn']))
     $result = mysqli_query($connect,$sql);
     if(mysqli_num_rows($result)==0)
     {
-        header("Location: ../loginT/loginT.php?error=usernot");
+        header("Location: ../loginS/loginS.php?error=usernot");
         exit();
     }
     if($row = mysqli_fetch_assoc($result))
     {
-        if(strcmp($row['job'], "teacher")!=0)
+        if(strcmp($row['job'], "student")!=0)
         {
-            header("Location: ../loginT/loginT.php?error=wronguser");
+            header("Location: ../loginS/loginS.php?error=wronguser");
             exit();
         } 
         if($pass==$row['pwd'])
@@ -26,26 +26,26 @@ if(isset($_POST['LoginBtn']))
             session_start();
             if(!empty($_POST['remember']))
             {
-                setcookie ("uid",$uid,time()+ (10 * 365 * 24 * 60 * 60),'/');  
-                setcookie ("password",$pass,time()+ (10 * 365 * 24 * 60 * 60),'/');
+                setcookie ("suid",$uid,time()+ (10 * 365 * 24 * 60 * 60),'/');  
+                setcookie ("spassword",$pass,time()+ (10 * 365 * 24 * 60 * 60),'/');
             }
             else
             {
-                if(isset($_COOKIE["uid"]))   
+                if(isset($_COOKIE["suid"]))   
                 {  
-                    setcookie ("uid","",time()-3600,'/');  
+                    setcookie ("suid","",time()-3600,'/');  
                 }  
-                if(isset($_COOKIE["password"]))   
+                if(isset($_COOKIE["spassword"]))   
                 {  
-                    setcookie ("password","",time()-3600,'/');  
+                    setcookie ("spassword","",time()-3600,'/');  
                 }  
             }
             $_SESSION['userID'] = $row['tID'];
-            header("Location: ../Teacher/dashboard.php");
+            header("Location: ../Student/dashboardS.php");
             exit();
         }
         else if($pass!=$row['pwd']){
-            header("Location: ../loginT/loginT.php?error=wrongpwd");
+            header("Location: ../loginS/loginS.php?error=wrongpwd");
             exit();
         }
     }
@@ -53,6 +53,6 @@ if(isset($_POST['LoginBtn']))
 
 }
 else{
-    header("Location: ../loginT/loginT.php");
+    header("Location: ../loginS/loginS.php");
     exit();
 }
