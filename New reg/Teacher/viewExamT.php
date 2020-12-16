@@ -22,12 +22,15 @@ include "../mysql-connect.php";
   <?php
   $connect = mysqli_connect($server, $user, $pw, $db, $port);
   $userID = $_SESSION['userID'];
-  $sql = "SELECT * FROM exam WHERE tID = '$userID'";
+  $sql = "SELECT examID FROM exam WHERE tID = '$userID'";
   $result =  mysqli_query($connect, $sql);
   if (!$result) {
     die("Could not successfully run query." . mysqli_error($connect));
   }
-
+  $eidarr = array();
+  while ($row = mysqli_fetch_assoc($result)) {
+    $eidarr[] = $row['examID'];
+  }
   ?>
   <!-- header -->
   <?php
@@ -42,34 +45,42 @@ include "../mysql-connect.php";
       ?>
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <h2>Exams</h2>
-          <div class="table-responsive">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th>Exam ID</th>
-                  <th>Exam title</th>
-                  <th>Exam date</th>
-                  <th>Start time</th>
-                  <th>End Time</th>
-                  <th>Question number</th>
-                  <th>Add question</th>
-                  <th>View questions</th>
-                  <th>Delete exam</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                while ( $row = mysqli_fetch_assoc($result) ){
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Exam ID</th>
+                <th>Exam title</th>
+                <th>Exam date</th>
+                <th>Start time</th>
+                <th>End Time</th>
+                <th>Question number</th>
+                <th>Add question</th>
+                <th>View questions</th>
+                <th>Delete exam</th>
+                <th>Exam Statistics</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $sql = "SELECT * FROM exammain";
+              $result =  mysqli_query($connect, $sql);
+              if (!$result) {
+                die("Could not successfully run query." . mysqli_error($connect));
+              }
+              while ($row = mysqli_fetch_assoc($result)) {
+                foreach ($eidarr as $eid) {
+                  if ($row['examID'] == $eid) {
                     $eid = $row['examID'];
                     $etitle = $row['examTitle'];
                     $edate = $row['examDate'];
                     $starttime = $row['startTime'];
                     $endTime = $row['endTime'];
                     $qnum = $row['questionNum'];
-                    print "<tr><td>".$eid."</td><td>".$etitle."</td><td>".$edate."</td><td>".$starttime."</td><td>".$endTime."</td><td>".$qnum."</td><td><button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#".$eid."'>Add question</button></td><td> <a type='button' href='../Teacher/showQ.php?id=".$eid."' class='btn btn-info btn-sm'>View question</a></td><td><a type='button' href='../Teacher/deleteEx.php?id=".$eid."' class='btn btn-danger btn-sm'>Delete exam</a></td></tr>";
+                    print "<tr><td>" . $eid . "</td><td>" . $etitle . "</td><td>" . $edate . "</td><td>" . $starttime . "</td><td>" . $endTime . "</td><td>" . $qnum . "</td><td><button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#" . $eid . "'>Add question</button></td><td> <a type='button' href='../Teacher/showQ.php?id=" . $eid . "' class='btn btn-info btn-sm'>View question</a></td><td><a type='button' href='../Teacher/deleteEx.php?id=" . $eid . "' class='btn btn-danger btn-sm'>Delete exam</a></td> <td><a type='button' href='../Teacher/examResults.php?id=" . $eid . "' class='btn btn-success btn-sm'>Exam Statistics</a></td></tr>";
                     print '                  
                   <!-- Modal -->
-                  <div class="modal fade" id="'.$eid.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal fade" id="' . $eid . '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -116,23 +127,25 @@ include "../mysql-connect.php";
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" name="addq" class="btn btn-primary">Add qustion</button>
-                                <input type="hidden" name="id" value="'.$eid.'"/>   
+                                <input type="hidden" name="id" value="' . $eid . '"/>   
                             </div>
                         </form>
                       </div>
                     </div>
                   </div>';
+                  }
                 }
-                         
-                ?>                
-                
-              </tbody>
-            </table>
-          </div>
+              }
+
+              ?>
+
+            </tbody>
+          </table>
+        </div>
       </main>
     </div>
   </div>
-  
+
 
   <!-- Bootstrap core JavaScript -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

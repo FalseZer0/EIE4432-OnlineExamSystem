@@ -16,7 +16,7 @@ if(isset($_POST['saveq']))
     $qop3 = $_POST['qop3']; 
     $qop4 = $_POST['qop4'];
      
-    $sql = "UPDATE questions SET QBody = '$qbody', Qtype = '$qtype', Qanswer = '$qans', points = '$qpoints', opt1 = '$qop1', opt2 = '$qop2', opt3 = '$qop3', opt4 = '$qop3' WHERE qID='$qid'"; 
+    $sql = "UPDATE questions SET QBody = '$qbody', Qtype = '$qtype', Qanswer = '$qans', points = '$qpoints', opt1 = '$qop1', opt2 = '$qop2', opt3 = '$qop3', opt4 = '$qop4' WHERE qID='$qid'"; 
     $result = mysqli_query($connect,$sql);
     if (!$result) {
         die("Could not successfully run query." . mysqli_error($connect) );

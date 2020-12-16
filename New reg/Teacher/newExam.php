@@ -13,29 +13,23 @@ if (isset($_POST['CreateEx'])) {
     if (!$connect)
         die("Connection failed: " . mysqli_connect_error());
 
-    //custom autoincrement of the eid based on the exam table
-    $sql = "SELECT * FROM exam";
+    $sql = "INSERT INTO exammain (examTitle, examDate, startTime, endTime, questionNum) VALUES ('$etitle', '$edate', '$estime','$eetime','$qnum');";
     $result = mysqli_query($connect, $sql);
     if (!$result) {
         die("Could not successfully run query." . mysqli_error($connect));
-    }
-    if (mysqli_num_rows($result) == 0) {
-        $eid = 0;
     } else {
-        $sql = "SELECT * FROM exam ORDER BY examID DESC LIMIT 1";
+        $sql = "SELECT examID FROM exammain ORDER BY examID DESC LIMIT 1";
         $result = mysqli_query($connect, $sql);
         if (!$result) {
             die("Could not successfully run query." . mysqli_error($connect));
         }
         $row = mysqli_fetch_assoc($result);
-        $eid = intval($row['examID']);
-        $eid++;
-    }
-    $sql = "INSERT INTO exam (examID,tID, examTitle, startTime, endTime, questionNum, checked) VALUES ('$eid','$userID','$etitle', '$edate', '$estime','$eetime','$qnum');";
-    $result = mysqli_query($connect, $sql);
-    if (!$result) {
-        die("Could not successfully run query." . mysqli_error($connect));
-    } else {
+        $eid = $row['examID'];
+        $sql = "INSERT INTO exam (examID, tID, checked) VALUES ('$eid' ,'$userID', 0);";
+        $result = mysqli_query($connect, $sql);
+        if (!$result) {
+            die("Could not successfully run query." . mysqli_error($connect));
+        }
         header("Location: ../Teacher/dashboard.php");
         exit();
     }

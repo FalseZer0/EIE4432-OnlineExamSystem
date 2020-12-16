@@ -19,12 +19,6 @@
             Exams
         </a>
         </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#">
-            <span data-feather="bar-chart-2"></span>
-            Exam Results
-        </a>
-        </li>
     </ul>
     </ul>
     </div>

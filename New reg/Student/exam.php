@@ -44,10 +44,11 @@ include "../mysql-connect.php";
             ?>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                 <p>Instructions: Please answer all questions and press submit button</p>
-                <div class="justify-content-center text-center" id="timer">Timer here</div>
+                <!-- <div class="justify-content-center text-center" id="timer">Timer here</div> -->
                 <div class="justify-content-center " id="questions">
                     <form action="checkExam.php" method="post">
                         <?php
+                        echo "<input type='hidden' name='examid' value='" . $eid . "'>";
                         while ($row = mysqli_fetch_assoc($result)) {
                             //identify if mcq or tf
                             if ($row['Qtype'] == 'mcq') {

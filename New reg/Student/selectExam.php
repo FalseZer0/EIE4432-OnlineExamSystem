@@ -7,7 +7,7 @@ $userID = $_SESSION['userID'];
 if (!$connect) {
     die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "SELECT * FROM exam WHERE examID = '$q' LIMIT 1";
+$sql = "SELECT * FROM exammain WHERE examID = '$q'";
 $result = mysqli_query($connect, $sql);
 if (!$result) {
     die("Could not successfully run query.");

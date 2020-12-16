@@ -16,12 +16,12 @@ if(isset($_POST['ResetBtn']))
     }
     if(mysqli_num_rows($result)>0)
     {
+        $row = mysqli_fetch_assoc($result);
         if(strcmp($row['job'], "student")!=0)
         {
             header("Location: ../loginS/loginS.php?error=wronguser");
             exit();
         } 
-        $row = mysqli_fetch_assoc($result);
         if($row['magicN']==$magic)
         {
             $sql2 = "UPDATE user SET pwd = '$pass' WHERE tID = '$uid'";

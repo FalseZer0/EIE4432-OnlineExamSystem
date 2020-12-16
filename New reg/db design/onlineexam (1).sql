@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3325
--- Время создания: Дек 14 2020 г., 07:27
+-- Время создания: Дек 16 2020 г., 12:40
 -- Версия сервера: 10.4.14-MariaDB
 -- Версия PHP: 7.4.10
 
@@ -43,20 +43,24 @@ CREATE TABLE `answers` (
 CREATE TABLE `exam` (
   `examID` bigint(64) NOT NULL,
   `tID` varchar(8) NOT NULL,
+  `checked` varchar(10) DEFAULT NULL,
+  `submitTime` varchar(64) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `exammain`
+--
+
+CREATE TABLE `exammain` (
+  `examID` bigint(64) NOT NULL,
   `examTitle` varchar(64) NOT NULL,
   `examDate` varchar(64) NOT NULL,
   `startTime` varchar(64) NOT NULL,
   `endTime` varchar(64) NOT NULL,
-  `questionNum` int(11) NOT NULL,
-  `checked` varchar(10) DEFAULT NULL
+  `questionNum` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Дамп данных таблицы `exam`
---
-
-INSERT INTO `exam` (`examID`, `tID`, `examTitle`, `examDate`, `startTime`, `endTime`, `questionNum`, `checked`) VALUES
-(1, '11111111', 'EIE 4432 test', '2020-12-15', '12:00', '13:00', 10, 'NO');
 
 -- --------------------------------------------------------
 
@@ -67,7 +71,8 @@ INSERT INTO `exam` (`examID`, `tID`, `examTitle`, `examDate`, `startTime`, `endT
 CREATE TABLE `mark` (
   `tID` varchar(8) NOT NULL,
   `examID` bigint(64) NOT NULL,
-  `grade` varchar(8) DEFAULT NULL
+  `grade` varchar(8) DEFAULT NULL,
+  `maxscore` varchar(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -102,7 +107,7 @@ CREATE TABLE `user` (
   `job` varchar(8) NOT NULL,
   `email` varchar(20) NOT NULL,
   `courseID` varchar(10) DEFAULT NULL,
-  `imagePath` varchar(30) NOT NULL,
+  `imagePath` varchar(164) NOT NULL,
   `pwd` varchar(30) NOT NULL,
   `magicN` int(5) NOT NULL,
   `gender` varchar(64) DEFAULT NULL,
@@ -114,8 +119,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`tID`, `fName`, `lName`, `job`, `email`, `courseID`, `imagePath`, `pwd`, `magicN`, `gender`, `bday`) VALUES
-('11111111', 'boi', 'shy', 'teacher', 'kairat.seksembaev@gm', '123', 'r_2320300_8CgA3.jpg', 'qwe', 21312, NULL, NULL),
-('12345678', 'Kairat', 'Seksembayev', 'teacher', 'mik@gmailda.com', '4432', '3d-5KGTL4j4.jpg', '123', 12345, NULL, NULL);
+('11111111', 'Nikita', 'Usenko', 'student', 'kairat.seksembaev@gm', NULL, 'r_2320300_8CgA3.jpg', 'qwerty', 32121, 'male', '2020-09-01'),
+('12345678', 'Kairat', 'Seksembayev', 'teacher', 'mik@gmail.com', '4432', 'Chris-Husbands.jpg', 'qwe', 12345, NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -133,8 +138,14 @@ ALTER TABLE `answers`
 -- Индексы таблицы `exam`
 --
 ALTER TABLE `exam`
-  ADD PRIMARY KEY (`examID`) USING BTREE,
+  ADD PRIMARY KEY (`examID`,`tID`),
   ADD KEY `tID` (`tID`);
+
+--
+-- Индексы таблицы `exammain`
+--
+ALTER TABLE `exammain`
+  ADD PRIMARY KEY (`examID`);
 
 --
 -- Индексы таблицы `mark`
@@ -161,16 +172,16 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT для таблицы `exam`
+-- AUTO_INCREMENT для таблицы `exammain`
 --
-ALTER TABLE `exam`
-  MODIFY `examID` bigint(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `exammain`
+  MODIFY `examID` bigint(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблицы `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `qID` bigint(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `qID` bigint(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -180,21 +191,22 @@ ALTER TABLE `questions`
 -- Ограничения внешнего ключа таблицы `answers`
 --
 ALTER TABLE `answers`
-  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`qID`) REFERENCES `questions` (`qID`),
-  ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`examID`) REFERENCES `questions` (`examID`),
+  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`qID`) REFERENCES `questions` (`qID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`examID`) REFERENCES `questions` (`examID`) ON DELETE CASCADE,
   ADD CONSTRAINT `answers_ibfk_3` FOREIGN KEY (`tID`) REFERENCES `user` (`tID`);
 
 --
 -- Ограничения внешнего ключа таблицы `exam`
 --
 ALTER TABLE `exam`
-  ADD CONSTRAINT `exam_ibfk_1` FOREIGN KEY (`tID`) REFERENCES `user` (`tID`);
+  ADD CONSTRAINT `exam_ibfk_1` FOREIGN KEY (`tID`) REFERENCES `user` (`tID`),
+  ADD CONSTRAINT `exam_ibfk_2` FOREIGN KEY (`examID`) REFERENCES `exammain` (`examID`) ON DELETE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `mark`
 --
 ALTER TABLE `mark`
-  ADD CONSTRAINT `mark_ibfk_1` FOREIGN KEY (`examID`) REFERENCES `exam` (`examID`),
+  ADD CONSTRAINT `mark_ibfk_1` FOREIGN KEY (`examID`) REFERENCES `exam` (`examID`) ON DELETE CASCADE,
   ADD CONSTRAINT `mark_ibfk_2` FOREIGN KEY (`tID`) REFERENCES `user` (`tID`);
 
 --

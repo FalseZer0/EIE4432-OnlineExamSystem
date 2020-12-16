@@ -1,7 +1,6 @@
 <?php
 session_start();
 include "../mysql-connect.php";
-date_default_timezone_set("Asia/Almaty");
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,7 +24,7 @@ date_default_timezone_set("Asia/Almaty");
     <?php
     $connect = mysqli_connect($server, $user, $pw, $db, $port);
     $userID = $_SESSION['userID'];
-    $sql = "SELECT examID FROM exam WHERE tID = '$userID'";
+    $sql = "SELECT * FROM exam WHERE tID = '$userID' AND checked > 0";
     $result =  mysqli_query($connect, $sql);
     if (!$result) {
         die("Could not successfully run query." . mysqli_error($connect));
@@ -47,7 +46,7 @@ date_default_timezone_set("Asia/Almaty");
             include "../Student/sidebarT.php";
             ?>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h2>Exam list</h2>
+                <h2>Exam results</h2>
                 <table class="table table-striped table-sm">
                     <thead>
                         <tr>
@@ -55,9 +54,10 @@ date_default_timezone_set("Asia/Almaty");
                             <th>Exam title</th>
                             <th>Exam date</th>
                             <th>Start time</th>
-                            <th>End Time</th>
-                            <th>Number of questions</th>
-                            <th>Action</th>
+                            <th>Submission Time</th>
+                            <th>Result</th>
+                            <th>Maximum result</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,31 +70,34 @@ date_default_timezone_set("Asia/Almaty");
                         while ($row = mysqli_fetch_assoc($result)) {
                             foreach ($eidarr as $eid) {
                                 if ($row['examID'] == $eid) {
-                                    $dateflag = 'disabled';
                                     $eid = $row['examID'];
                                     $etitle = $row['examTitle'];
                                     $edate = $row['examDate'];
                                     $starttime = $row['startTime'];
-                                    if (date("Y-m-d") == $row['examDate']) {
-                                        $date = new DateTime("now", new DateTimeZone('Asia/Almaty')); 
-                                        if ($row['startTime'] <= $date->format('H:i') && $row['endTime'] >= $date->format('H:i')) {
-                                            
-                                            $dateflag = '';
-                                        }
+                                    $sql1 = "SELECT * FROM exam WHERE examID = '$eid' AND tID = '$userID'";
+                                    $result1 =  mysqli_query($connect, $sql1);
+                                    if (!$result1) {
+                                        die("Could not successfully run query." . mysqli_error($connect));
                                     }
-                                    $endTime = $row['endTime'];
-                                    $qnum = $row['questionNum'];
-                                    print "<tr><td>" . $eid . "</td><td>" . $etitle . "</td><td>" . $edate . "</td><td>" . $starttime . "</td><td>" . $endTime . "</td><td>" . $qnum . "</td><td><form method='post' action='../Student/exam.php'><input type='hidden' name='examid' value='" . $eid . "'><input " . $dateflag . " type='submit' class='btn btn-danger btn-sm' value='Take exam' ></form></td></tr>";
+                                    $row1 = mysqli_fetch_assoc($result1);
+                                    $submittime = $row1['submitTime'];
+                                    $sql2 = "SELECT * FROM mark WHERE examID = '$eid' AND tID = '$userID'";
+                                    $result2 =  mysqli_query($connect, $sql2);
+                                    if (!$result2) {
+                                        die("Could not successfully run query." . mysqli_error($connect));
+                                    }
+                                    $row2 = mysqli_fetch_assoc($result2);
+                                    $mark = $row2['grade'];
+                                    $maxmark = $row2['maxscore'];
+                                    print "<tr><td>" . $eid . "</td><td>" . $etitle . "</td><td>" . $edate . "</td><td>" . $starttime . "</td><td>" . $submittime . "</td><td>" . $mark . "</td><td>" . $maxmark . "</td><td><form method='post' action='../Student/resultDetails.php'><input type='hidden' name='examid' value='" . $eid . "'><input type='submit' class='btn btn-danger btn-sm' value='View details'></form></td></tr>";
                                 }
                             }
                         }
                         ?>
 
                     </tbody>
-
                 </table>
             </main>
-
         </div>
     </div>
 

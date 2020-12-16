@@ -1,7 +1,6 @@
 <?php
 session_start();
 include "../mysql-connect.php";
-date_default_timezone_set("Asia/Almaty");
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,14 +24,11 @@ date_default_timezone_set("Asia/Almaty");
     <?php
     $connect = mysqli_connect($server, $user, $pw, $db, $port);
     $userID = $_SESSION['userID'];
-    $sql = "SELECT examID FROM exam WHERE tID = '$userID'";
+    $eid = $_POST['examid'];
+    $sql = "SELECT * FROM questions WHERE examID = '$eid'";
     $result =  mysqli_query($connect, $sql);
     if (!$result) {
         die("Could not successfully run query." . mysqli_error($connect));
-    }
-    $eidarr = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        $eidarr[] = $row['examID'];
     }
     ?>
     <!-- header -->
@@ -47,54 +43,62 @@ date_default_timezone_set("Asia/Almaty");
             include "../Student/sidebarT.php";
             ?>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h2>Exam list</h2>
+                <h2>Results details</h2>
                 <table class="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th>Exam ID</th>
-                            <th>Exam title</th>
-                            <th>Exam date</th>
-                            <th>Start time</th>
-                            <th>End Time</th>
-                            <th>Number of questions</th>
-                            <th>Action</th>
-                        </tr>
+                            <th>Question</th>
+                            <th>Submitted answer</th>
+                            <th>Score per question</th>
+                            <th>Correct answer</th>
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT * FROM exammain";
-                        $result =  mysqli_query($connect, $sql);
-                        if (!$result) {
-                            die("Could not successfully run query." . mysqli_error($connect));
-                        }
                         while ($row = mysqli_fetch_assoc($result)) {
-                            foreach ($eidarr as $eid) {
-                                if ($row['examID'] == $eid) {
-                                    $dateflag = 'disabled';
-                                    $eid = $row['examID'];
-                                    $etitle = $row['examTitle'];
-                                    $edate = $row['examDate'];
-                                    $starttime = $row['startTime'];
-                                    if (date("Y-m-d") == $row['examDate']) {
-                                        $date = new DateTime("now", new DateTimeZone('Asia/Almaty')); 
-                                        if ($row['startTime'] <= $date->format('H:i') && $row['endTime'] >= $date->format('H:i')) {
-                                            
-                                            $dateflag = '';
-                                        }
-                                    }
-                                    $endTime = $row['endTime'];
-                                    $qnum = $row['questionNum'];
-                                    print "<tr><td>" . $eid . "</td><td>" . $etitle . "</td><td>" . $edate . "</td><td>" . $starttime . "</td><td>" . $endTime . "</td><td>" . $qnum . "</td><td><form method='post' action='../Student/exam.php'><input type='hidden' name='examid' value='" . $eid . "'><input " . $dateflag . " type='submit' class='btn btn-danger btn-sm' value='Take exam' ></form></td></tr>";
-                                }
+                            $qid = $row['qID'];
+                            print "<tr><td>" . $row['QBody'] . "</td>";
+                            $sql1 = "SELECT * FROM answers WHERE examID = '$eid' AND qID = $qid AND tID = $userID";
+                            $result1 =  mysqli_query($connect, $sql1);
+                            if (!$result1) {
+                                die("Could not successfully run query." . mysqli_error($connect));
                             }
+                            $row1 = mysqli_fetch_assoc($result1);
+                            switch (intval($row1['uAnswer'])) {
+                                case 1:
+                                    print "<td>" . $row['opt1'] . "</td>";
+                                    break;
+                                case 2:
+                                    print "<td>" . $row['opt2'] . "</td>";
+                                    break;
+                                case 3:
+                                    print "<td>" . $row['opt3'] . "</td>";
+                                    break;
+                                case 4:
+                                    print "<td>" . $row['opt4'] . "</td>";
+                                    break;
+                            }
+                            print "<td>" . $row['points'] . "</td>";
+                            switch (intval($row['Qanswer'])) {
+                                case 1:
+                                    print "<td>" . $row['opt1'] . "</td>";
+                                    break;
+                                case 2:
+                                    print "<td>" . $row['opt2'] . "</td>";
+                                    break;
+                                case 3:
+                                    print "<td>" . $row['opt3'] . "</td>";
+                                    break;
+                                case 4:
+                                    print "<td>" . $row['opt4'] . "</td>";
+                                    break;
+                            }
+                            print "</tr>";
                         }
                         ?>
 
                     </tbody>
-
                 </table>
             </main>
-
         </div>
     </div>
 
