@@ -28,8 +28,3 @@ else{
     header("Location: ../Teacher/viewExamT.php?error=qerror");
     exit();
 }
-
-
-?>
-
-

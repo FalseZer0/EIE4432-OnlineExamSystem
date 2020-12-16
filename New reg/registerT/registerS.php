@@ -78,7 +78,6 @@
                                 <input type="submit" onclick="return submitForm()" name="RegisterBtn" id="regBtn" class="btn btn-outline-info btn-md w-100" value="register">
                             </div>
                         </div>
-                        <!-- //sda       -->
                         <div class="control justify-content-center align-items-center">
                             <span style="float:left;">Already registered? <a href="../loginS/loginS.php">Sign in</a></span>
                             <span style="float:right;"><a href="../init.php">Go back</a></span>

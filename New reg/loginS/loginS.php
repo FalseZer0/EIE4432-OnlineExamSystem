@@ -1,9 +1,10 @@
 <?php
-    session_start();
-    
+session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <!-- my css under -->
     <link rel="stylesheet" href="loginT.css">
 </head>
+
 <body>
     <div id="loginT">
         <div class="container">
@@ -20,50 +22,54 @@
                     <form id="login-form" class="form" action="loginProcS.php" method="post">
                         <h2 class="text-center">Login</h2>
                         <?php
-                            if(isset($_GET['error']))
-                            {
-                                if($_GET['error']=="usernot")
-                                    echo '<p class="error_message">No user</p>';
-                                if($_GET['error']=="wrongpwd")
-                                    echo '<p class="error_message">Wrong Login or Password</p>';
-                                if($_GET['error']=="wronguser")
-                                    echo '<p class="error_message">Wrong user, please go to the different login page</p>';
-                            }
-                            
+                        if (isset($_GET['error'])) {
+                            if ($_GET['error'] == "usernot")
+                                echo '<p class="error_message">No user</p>';
+                            if ($_GET['error'] == "wrongpwd")
+                                echo '<p class="error_message">Wrong Login or Password</p>';
+                            if ($_GET['error'] == "wronguser")
+                                echo '<p class="error_message">Wrong user, please go to the different login page</p>';
+                        }
+
                         ?>
-                        <div class="form-group" id ="divid">
-                            <label for="userid" >ID</label><br>
-                            <input type="text" name="userid" id="userid" class="form-control" value="<?php if(isset($_COOKIE["suid"])) { echo $_COOKIE["suid"]; } ?>" placeholder="e.g 12345667">
+                        <div class="form-group" id="divid">
+                            <label for="userid">ID</label><br>
+                            <input type="text" name="userid" id="userid" class="form-control" value="<?php if (isset($_COOKIE["suid"])) {
+                                                                                                            echo $_COOKIE["suid"];
+                                                                                                        } ?>" placeholder="e.g 12345667">
                         </div>
                         <div class="form-group" id="divpass">
-                            <label for="password" >Password</label><br>
-                            <input type="password" name="password" value="<?php if(isset($_COOKIE["spassword"])) { echo $_COOKIE["spassword"]; } ?>" id="password" class="form-control">
+                            <label for="password">Password</label><br>
+                            <input type="password" name="password" value="<?php if (isset($_COOKIE["spassword"])) {
+                                                                                echo $_COOKIE["spassword"];
+                                                                            } ?>" id="password" class="form-control">
                         </div>
                         <div class="form-group">
                             <a href="resetPS.php">Forgot password?</a>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" <?php if(isset($_COOKIE["suid"])) { ?> checked <?php } ?> name="remember" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label"  for="exampleCheck1">Remember me</label>
+                            <input type="checkbox" <?php if (isset($_COOKIE["suid"])) { ?> checked <?php } ?> name="remember" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Remember me</label>
                         </div>
                         <div class="form-group">
                             <div class="col text-center">
                                 <input type="submit" onclick="return submitForm()" name="LoginBtn" id="logBtn" class="btn btn-outline-info btn-md w-100" value="Login">
-                            </div>   
+                            </div>
                         </div>
                         <div class="control justify-content-center align-items-center">
                             <span style="float:left;">Not yet registered? <a href="../registerT/registerS.php">Sign Up</a></span>
-                            <span style="float:right;"><a href="../init.php">Go back</a></span>  
+                            <span style="float:right;"><a href="../init.php">Go back</a></span>
                         </div>
-      
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="login.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="login.js"></script>
 </body>
+
 </html>

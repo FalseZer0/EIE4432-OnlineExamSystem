@@ -22,13 +22,12 @@ $connect = mysqli_connect($server, $user, $pw, $db, $port);
 
 <body>
     <?php
-        if(!isset($_POST['viewd']))
-        {
-            header("Location: ../Teacher/viewExamT.php");
-            exit();
-        }
-        $eid = $_POST['examid'];
-        $sid = $_POST['tid'];
+    if (!isset($_POST['viewd'])) {
+        header("Location: ../Teacher/viewExamT.php");
+        exit();
+    }
+    $eid = $_POST['examid'];
+    $sid = $_POST['tid'];
     ?>
     <!-- header -->
     <?php
@@ -49,55 +48,54 @@ $connect = mysqli_connect($server, $user, $pw, $db, $port);
                             <th>Score per question</th>
                             <th>Correct answer</th>
                             <th>Student`s answer</th>
-                            
+
                     </thead>
                     <tbody>
                         <?php
-                            $sql = "SELECT * FROM questions WHERE examID = '$eid'";
-                            $result =  mysqli_query($connect, $sql);
-                            if (!$result) {
+                        $sql = "SELECT * FROM questions WHERE examID = '$eid'";
+                        $result =  mysqli_query($connect, $sql);
+                        if (!$result) {
+                            die("Could not successfully run query." . mysqli_error($connect));
+                        }
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            print "<tr><td>" . $row['QBody'] . "</td><td>" . $row['points'] . "</td>";
+                            switch (intval($row['Qanswer'])) {
+                                case 1:
+                                    print "<td>" . $row['opt1'] . "</td>";
+                                    break;
+                                case 2:
+                                    print "<td>" . $row['opt2'] . "</td>";
+                                    break;
+                                case 3:
+                                    print "<td>" . $row['opt3'] . "</td>";
+                                    break;
+                                case 4:
+                                    print "<td>" . $row['opt4'] . "</td>";
+                                    break;
+                            }
+                            $qid = $row['qID'];
+                            $sql1 = "SELECT * FROM answers WHERE examID = '$eid' AND qID = '$qid' AND tID = '$sid'";
+                            $result1 =  mysqli_query($connect, $sql1);
+                            if (!$result1) {
                                 die("Could not successfully run query." . mysqli_error($connect));
                             }
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                print "<tr><td>" . $row['QBody'] . "</td><td>" . $row['points'] . "</td>";
-                                switch (intval($row['Qanswer'])) {
-                                    case 1:
-                                        print "<td>" . $row['opt1'] . "</td>";
-                                        break;
-                                    case 2:
-                                        print "<td>" . $row['opt2'] . "</td>";
-                                        break;
-                                    case 3:
-                                        print "<td>" . $row['opt3'] . "</td>";
-                                        break;
-                                    case 4:
-                                        print "<td>" . $row['opt4'] . "</td>";
-                                        break;
-                                }
-                                $qid = $row['qID'];
-                                $sql1 = "SELECT * FROM answers WHERE examID = '$eid' AND qID = '$qid' AND tID = '$sid'";
-                                $result1 =  mysqli_query($connect, $sql1);
-                                if (!$result1) {
-                                    die("Could not successfully run query." . mysqli_error($connect));
-                                }
-                                $row1 = mysqli_fetch_assoc($result1);
-                                switch (intval($row1['uAnswer'])) {
-                                    case 1:
-                                        print "<td>" . $row['opt1'] . "</td>";
-                                        break;
-                                    case 2:
-                                        print "<td>" . $row['opt2'] . "</td>";
-                                        break;
-                                    case 3:
-                                        print "<td>" . $row['opt3'] . "</td>";
-                                        break;
-                                    case 4:
-                                        print "<td>" . $row['opt4'] . "</td>";
-                                        break;
-                                }
-                                print "</tr>";
-
+                            $row1 = mysqli_fetch_assoc($result1);
+                            switch (intval($row1['uAnswer'])) {
+                                case 1:
+                                    print "<td>" . $row['opt1'] . "</td>";
+                                    break;
+                                case 2:
+                                    print "<td>" . $row['opt2'] . "</td>";
+                                    break;
+                                case 3:
+                                    print "<td>" . $row['opt3'] . "</td>";
+                                    break;
+                                case 4:
+                                    print "<td>" . $row['opt4'] . "</td>";
+                                    break;
                             }
+                            print "</tr>";
+                        }
                         ?>
 
                     </tbody>

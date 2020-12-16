@@ -62,7 +62,6 @@ include "../mysql-connect.php";
                             </div>
                         </div>
                         <div class="col-md-7 text-md-left ml-3 mt-3">
-                            <h4 class="h4 mb-4">Course ID: <?php echo $cid; ?></h4>
                             <?php
                             echo '<h5 class="font-weight-normal">Hello Dear ' . $lname . '! Welcome to Online Exam system. In order to view available exams and register for one, input the examID that was given by teacher to the search input and press enroll. In order to take an exam  click "Take exam" and the list of all exams you registered for will be shown. In case you want to see statistic of exams click "Exam results"</h5>';
                             ?>

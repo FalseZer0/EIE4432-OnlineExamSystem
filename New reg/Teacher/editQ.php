@@ -28,7 +28,3 @@ else{
     header("Location: ../Teacher/showQ.php?id=".$eid."");
     exit();
 }
-
-
-
-?>

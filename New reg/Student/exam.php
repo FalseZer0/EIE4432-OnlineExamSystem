@@ -44,7 +44,6 @@ include "../mysql-connect.php";
             ?>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                 <p>Instructions: Please answer all questions and press submit button</p>
-                <!-- <div class="justify-content-center text-center" id="timer">Timer here</div> -->
                 <div class="justify-content-center " id="questions">
                     <form action="checkExam.php" method="post">
                         <?php
@@ -56,16 +55,16 @@ include "../mysql-connect.php";
                             <h4>" . $row['QBody'] . "</h3>
                                 <ol>
                                     <li>
-                                        <input type='radio' name='".$row['qID']."' value='1' />".$row['opt1']."
+                                        <input type='radio' name='" . $row['qID'] . "' value='1' />" . $row['opt1'] . "
                                     </li>
                                     <li>
-                                        <input type='radio' name='".$row['qID']."' value='2' />".$row['opt2']."
+                                        <input type='radio' name='" . $row['qID'] . "' value='2' />" . $row['opt2'] . "
                                     </li>
                                     <li>
-                                        <input type='radio' name='".$row['qID']."' value='3' />".$row['opt3']."
+                                        <input type='radio' name='" . $row['qID'] . "' value='3' />" . $row['opt3'] . "
                                     </li>
                                     <li>
-                                        <input type='radio' name='".$row['qID']."' value='4' />".$row['opt4']."
+                                        <input type='radio' name='" . $row['qID'] . "' value='4' />" . $row['opt4'] . "
                                     </li>
                                 </ol>
                             </div>
@@ -75,10 +74,10 @@ include "../mysql-connect.php";
                             <h4>" . $row['QBody'] . "</h3>
                                 <ol>
                                     <li>
-                                        <input type='radio' name='".$row['qID']."' value='1' />".$row['opt1']."
+                                        <input type='radio' name='" . $row['qID'] . "' value='1' />" . $row['opt1'] . "
                                     </li>
                                     <li>
-                                        <input type='radio' name='".$row['qID']."' value='2' />".$row['opt2']."
+                                        <input type='radio' name='" . $row['qID'] . "' value='2' />" . $row['opt2'] . "
                                     </li>
                                 </ol>
                             </div>

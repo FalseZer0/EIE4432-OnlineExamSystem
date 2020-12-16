@@ -72,10 +72,10 @@ if (isset($_GET['id'])) {
                             $opt2 = $row['opt2'];
                             $opt3 = $row['opt3'];
                             $opt4 = $row['opt4'];
-                            print "<tr><td>" . $qbody . "</td> <td>" . $qtype . "</td> <td>" . $qanswer . "</td> <td>" . $points . "</td> <td>" . $opt1 . "</td> <td>" . $opt2 . "</td> <td>" . $opt3 . "</td> <td>" . $opt4 . "</td> <td><button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#" . $qID . "'>Edit</button></td><td><a type='button' href='../Teacher/deleteQ.php?qid=" . $qID . "&eid=".$eid."' class='btn btn-info btn-sm'>Delete</a></td></tr>";
+                            print "<tr><td>" . $qbody . "</td> <td>" . $qtype . "</td> <td>" . $qanswer . "</td> <td>" . $points . "</td> <td>" . $opt1 . "</td> <td>" . $opt2 . "</td> <td>" . $opt3 . "</td> <td>" . $opt4 . "</td> <td><button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#" . $qID . "'>Edit</button></td><td><a type='button' href='../Teacher/deleteQ.php?qid=" . $qID . "&eid=" . $eid . "' class='btn btn-info btn-sm'>Delete</a></td></tr>";
                             print '                  
                                     <!-- Modal -->
-                                    <div class="modal fade" id="'.$qID.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal fade" id="' . $qID . '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -85,7 +85,7 @@ if (isset($_GET['id'])) {
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                             </div>
-                                            <form  class="form" action="editQ.php?id='.$eid.'" method="post">
+                                            <form  class="form" action="editQ.php?id=' . $eid . '" method="post">
                                                 <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="QTextarea">Question</label>
@@ -122,7 +122,7 @@ if (isset($_GET['id'])) {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="submit" name="saveq" class="btn btn-primary">Save</button>
-                                                    <input type="hidden" name="id" value="'.$qID.'"/>   
+                                                    <input type="hidden" name="id" value="' . $qID . '"/>   
                                                 </div>
                                             </form>
                                         </div>

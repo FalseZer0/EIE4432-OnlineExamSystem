@@ -42,7 +42,7 @@ if (mysqli_num_rows($result) == 0) {
                 <td>' . $row['examDate'] . '</td>
                 <td>' . $row['startTime'] . '</td>
                 <td>' . $row['endTime'] . '</td>
-                <td><a type="button" href="../Student/enrollExam.php?id='. $row['examID'] .'" class="btn btn-success btn-sm">Enroll exam</a></td>
+                <td><a type="button" href="../Student/enrollExam.php?id=' . $row['examID'] . '" class="btn btn-success btn-sm">Enroll exam</a></td>
             </tr>
         </tbody>
     </table>';

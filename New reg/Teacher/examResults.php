@@ -89,9 +89,7 @@ include "../mysql-connect.php";
                                     print "<td><form method='post' action='../Teacher/studentResultDetails.php'><input type='hidden' name='examid' value='" . $eid . "'><input type='hidden' name='tid' value='" . $tid . "'><input type='submit' name='viewd' class='btn btn-danger btn-sm' value='View details'></form></td>";
                                     print "</tr>";
                                 }
-
                             }
-
                         }
                         ?>
 

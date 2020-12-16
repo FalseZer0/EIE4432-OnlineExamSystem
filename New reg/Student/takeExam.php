@@ -76,9 +76,9 @@ date_default_timezone_set("Asia/Almaty");
                                     $edate = $row['examDate'];
                                     $starttime = $row['startTime'];
                                     if (date("Y-m-d") == $row['examDate']) {
-                                        $date = new DateTime("now", new DateTimeZone('Asia/Almaty')); 
+                                        $date = new DateTime("now", new DateTimeZone('Asia/Almaty'));
                                         if ($row['startTime'] <= $date->format('H:i') && $row['endTime'] >= $date->format('H:i')) {
-                                            
+
                                             $dateflag = '';
                                         }
                                     }
